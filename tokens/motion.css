@@ -1,0 +1,44 @@
+/* ============================================================================
+   OpenVitals — Motion tokens
+   ----------------------------------------------------------------------------
+   The durations are MEASURED from the app, not invented: an audit of every
+   `Duration(milliseconds:)` in `lib/ui/` found exactly four values in use —
+   120, 300, 550 and 1200. Naming them is what stops the fifth from being
+   whatever someone types that day.
+
+   Policy (from the visual foundations): motion is minimal and functional.
+   Press feedback and swipes, chart reveals when data arrives — no decorative
+   or looping animation, no scale/bounce.
+   ========================================================================= */
+
+:root {
+  /* Press/hover feedback — the readme's "~120ms ease" made real. */
+  --ov-motion-press:    120ms;
+
+  /* One element changing in place (a selection, a toggle, a card settling). */
+  --ov-motion-standard: 300ms;
+
+  /* A chart drawing itself in when its data lands. */
+  --ov-motion-reveal:   550ms;
+
+  /* The one slow mover: an ambient, single-run progress sweep. Anything this
+     long must be interruptible and must never loop. */
+  --ov-motion-ambient: 1200ms;
+
+  /* Material 3 curves. Standard for in-place changes; decelerate for things
+     entering the screen. */
+  --ov-easing-standard:   cubic-bezier(0.2, 0, 0, 1);
+  --ov-easing-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+}
+
+/* Reduced motion is an accessibility floor, not a preference to consider.
+   Web mocks honor the media query; the Flutter app's equivalent is
+   `MediaQuery.disableAnimations` — reveals drop to zero, functional feedback
+   stays at or under press duration. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ov-motion-standard: 0ms;
+    --ov-motion-reveal:   0ms;
+    --ov-motion-ambient:  0ms;
+  }
+}
