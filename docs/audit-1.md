@@ -53,7 +53,7 @@ Add Marker, Data Importers* among them. **Exemption:** Garmin's feature names
 Level*) are third-party product terms and keep their casing. Fixing the
 first-party strings is l10n churn across 5 catalogs — backlog, one commit.
 
-### F4 — Typography silently deviates from Material 3 · **medium · decision needed**
+### F4 — Typography silently deviates from Material 3 · **medium · resolved**
 
 Two deviations from Flutter's M3 defaults (`Typography.material2021`), neither
 previously documented:
@@ -64,8 +64,9 @@ previously documented:
 2. **Tracking** — body and title styles omit M3's letter-spacing (bodyLarge
    +0.5, bodyMedium +0.25, bodySmall +0.4, titleMedium +0.15, titleSmall +0.1;
    the label styles *do* carry theirs). Ported verbatim from the Compose app,
-   never decided. M3's tracking exists for small-size legibility. Adopting it
-   re-renders every screen — golden-affecting, owner's call.
+   never decided. **Resolved 2026-07-28: M3 tracking adopted** — the owner chose
+   the industry pattern over the accidental port. Chart goldens were unaffected
+   (painters pin their own label styles); screens re-render with the tracking.
 
 ### F5 — Token discipline: excellent at the theme layer, absent at call sites · **medium · standard written**
 
@@ -159,4 +160,4 @@ elements excluded from semantics (`StepDots`, the wordmark).
 4. `Colors.white`/`black` audit — annotate or resolve from scheme (F7)
 5. Chart semantics: charts are currently visual-only; each needs a semantic
    summary label (see accessibility.md)
-6. Typography tracking decision (F4.2), if adopted: one commit + golden update
+6. ~~Typography tracking decision (F4.2)~~ — **done**, adopted 2026-07-28
