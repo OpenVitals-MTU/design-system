@@ -48,25 +48,27 @@ a backlog item, not a rule.
 
 | Metric | Glyph (Flutter name, outlined form) |
 |---|---|
-| Steps | `directions_walk` |
-| Distance | `straighten` |
-| Workout / exercise | `directions_run` |
+| Steps | `directions_walk_outlined` |
+| Distance | `straighten_outlined` |
+| Workout / exercise | `directions_run_outlined` |
 | Heart | `favorite_border` |
-| Sleep | `bed` (`_outlined`) |
-| Calories | `local_fire_department` (`_outlined`) |
-| Hydration | `water_drop` (`_outlined`) |
-| Nutrition | `restaurant` |
-| Mindfulness | `self_improvement` (stroke-natured; base OK) |
-| Cycle | `calendar_month` (`_outlined`) |
-| Body / weight | `monitor_weight` (`_outlined`) |
-| Vitals | `monitor_heart` (`_outlined`) |
+| Sleep | `bed_outlined` |
+| Calories | `local_fire_department_outlined` |
+| Hydration | `water_drop_outlined` |
+| Nutrition | `restaurant_outlined` |
+| Mindfulness | `self_improvement_outlined` |
+| Cycle | `calendar_month_outlined` |
+| Body / weight | `monitor_weight_outlined` |
+| Vitals | `device_thermostat_outlined` / `monitor_heart_outlined` |
 
-*(Registry seeded from current app usage; extend it here first, then code.)*
+*(Registry reflects shipped usage after the 2026-07-28 migration; extend it
+here first, then code.)*
 
 ## Current state (measured 2026-07-28)
 
-516 icon references in the app: 238 outlined-intent, 278 filled/base. After
-subtracting nav selected-states and stroke-natured glyphs, roughly **200 uses
-violate rule 1** — including `Icons.favorite` (16×) living beside
-`Icons.favorite_border` (21×). Migration is mechanical and per-screen;
-tracked as backlog item 1 in the audit.
+**Migrated 2026-07-28.** 155 replacements across 42 files brought every
+non-exempt use onto the outlined family; `favorite` joined `favorite_border`
+except the two deliberate state fills (nav selection, the heart-threshold
+alert, both commented in code). What remains on base names is the exemption
+list above, not drift. New code follows the rules; the analyzer catches a
+nonexistent `_outlined` name at the first compile.

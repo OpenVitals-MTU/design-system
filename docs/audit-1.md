@@ -27,7 +27,7 @@ the CSS token is renamed `--ov-min-touch-target` (nothing consumed the old name
 — verified before renaming). Visual containers may stay smaller (40dp icon
 button, 24dp glyph) so long as the hit area pads out to 48.
 
-### F2 — Two icon systems, and neither is followed · **high · standard written**
+### F2 — Two icon systems, and neither is followed · **high · resolved (app migrated)**
 
 This system specified *Material Symbols Outlined, weight 500, FILL 0*. The app
 ships the **classic Material Icons font** via Flutter's `Icons` class — a
@@ -40,8 +40,12 @@ One usage is *correct* and exempt: the nav bar's filled-when-selected pairing
 (`app_routes.dart` — outlined idle, filled selected) is the Material 3 pattern.
 
 The standard is now [iconography.md](iconography.md): outlined-only chrome,
-filled reserved for selected/active states, one glyph per metric. Migration of
-the ~200 stray filled uses is backlog — mechanical, per-screen, low risk.
+filled reserved for selected/active states, one glyph per metric. **Migration
+executed 2026-07-28**: 155 replacements across 42 files; every mapped
+`_outlined` name resolved on the first analyzer pass; two deliberate state
+fills kept and commented (nav selected pairing, the heart-threshold alert);
+12 achievements goldens re-photographed. The remaining base-name uses are the
+documented exemptions, not drift.
 
 ### F3 — The copy standard contradicts itself, and the app violates it · **medium · partly fixed**
 
@@ -134,13 +138,12 @@ accent. The existing rule already contains this: **accents appear only on data
 (icons, strokes, small indicators), never on interactive chrome.** Now stated
 in [accessibility.md](accessibility.md) as load-bearing, not stylistic.
 
-### F13 — This repository is not under version control · **high · decision needed**
+### F13 — This repository is not under version control · **high · resolved**
 
 The rot documented in the readme — seventeen accents falling an accessibility
 pass behind — happened precisely because this content lived outside the tools
-that track change. It is currently a bare directory again. `git init` plus a
-remote is a five-minute fix and the single highest-leverage governance act
-available to this system.
+that track change. **Resolved 2026-07-28**: `git init`, identity set, baseline
+committed. Still open: a remote, so the history survives this machine.
 
 ---
 
@@ -154,7 +157,7 @@ elements excluded from semantics (`StepDots`, the wordmark).
 
 ## Backlog, in priority order
 
-1. Icon style migration (~200 filled → outlined; F2)
+1. ~~Icon style migration (F2)~~ — **done**, 155 replacements 2026-07-28
 2. First-party title-case strings → sentence case, 5 catalogs (F3)
 3. Spacing/radius/alpha literal migration, per-screen with golden cover (F5)
 4. `Colors.white`/`black` audit — annotate or resolve from scheme (F7)
