@@ -143,7 +143,8 @@ in [accessibility.md](accessibility.md) as load-bearing, not stylistic.
 The rot documented in the readme — seventeen accents falling an accessibility
 pass behind — happened precisely because this content lived outside the tools
 that track change. **Resolved 2026-07-28**: `git init`, identity set, baseline
-committed. Still open: a remote, so the history survives this machine.
+committed, and pushed to `codeberg.org/OpenVitals/design-system`. Closed in
+full — the history now survives this machine.
 
 ---
 
