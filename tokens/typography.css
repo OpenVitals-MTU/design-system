@@ -20,12 +20,12 @@
   --ov-headline-sm-size: 24px;  --ov-headline-sm-line: 32px;  --ov-headline-sm-weight: 600;
 
   --ov-title-lg-size: 22px;     --ov-title-lg-line: 28px;     --ov-title-lg-weight: 600;
-  --ov-title-md-size: 16px;     --ov-title-md-line: 24px;     --ov-title-md-weight: 500;
-  --ov-title-sm-size: 14px;     --ov-title-sm-line: 20px;     --ov-title-sm-weight: 500;
+  --ov-title-md-size: 16px;     --ov-title-md-line: 24px;     --ov-title-md-weight: 500;  --ov-title-md-tracking: 0.15px;
+  --ov-title-sm-size: 14px;     --ov-title-sm-line: 20px;     --ov-title-sm-weight: 500;  --ov-title-sm-tracking: 0.1px;
 
-  --ov-body-lg-size: 16px;      --ov-body-lg-line: 24px;      --ov-body-lg-weight: 400;
-  --ov-body-md-size: 14px;      --ov-body-md-line: 20px;      --ov-body-md-weight: 400;
-  --ov-body-sm-size: 12px;      --ov-body-sm-line: 16px;      --ov-body-sm-weight: 400;
+  --ov-body-lg-size: 16px;      --ov-body-lg-line: 24px;      --ov-body-lg-weight: 400;   --ov-body-lg-tracking: 0.5px;
+  --ov-body-md-size: 14px;      --ov-body-md-line: 20px;      --ov-body-md-weight: 400;   --ov-body-md-tracking: 0.25px;
+  --ov-body-sm-size: 12px;      --ov-body-sm-line: 16px;      --ov-body-sm-weight: 400;   --ov-body-sm-tracking: 0.4px;
 
   --ov-label-lg-size: 14px;     --ov-label-lg-line: 20px;     --ov-label-lg-weight: 500;  --ov-label-lg-tracking: 0.1px;
   --ov-label-md-size: 12px;     --ov-label-md-line: 16px;     --ov-label-md-weight: 500;  --ov-label-md-tracking: 0.5px;
@@ -56,11 +56,11 @@
 .ov-headline-md { font: var(--ov-weight-semibold) var(--ov-headline-md-size)/var(--ov-headline-md-line) var(--ov-font-sans); font-feature-settings: 'tnum'; }
 .ov-headline-sm { font: var(--ov-weight-semibold) var(--ov-headline-sm-size)/var(--ov-headline-sm-line) var(--ov-font-sans); }
 .ov-title-lg    { font: var(--ov-weight-semibold) var(--ov-title-lg-size)/var(--ov-title-lg-line) var(--ov-font-sans); }
-.ov-title-md    { font: var(--ov-weight-medium) var(--ov-title-md-size)/var(--ov-title-md-line) var(--ov-font-sans); }
-.ov-title-sm    { font: var(--ov-weight-medium) var(--ov-title-sm-size)/var(--ov-title-sm-line) var(--ov-font-sans); }
-.ov-body-lg     { font: var(--ov-weight-regular) var(--ov-body-lg-size)/var(--ov-body-lg-line) var(--ov-font-sans); }
-.ov-body-md     { font: var(--ov-weight-regular) var(--ov-body-md-size)/var(--ov-body-md-line) var(--ov-font-sans); }
-.ov-body-sm     { font: var(--ov-weight-regular) var(--ov-body-sm-size)/var(--ov-body-sm-line) var(--ov-font-sans); }
+.ov-title-md    { font: var(--ov-weight-medium) var(--ov-title-md-size)/var(--ov-title-md-line) var(--ov-font-sans); letter-spacing: var(--ov-title-md-tracking); }
+.ov-title-sm    { font: var(--ov-weight-medium) var(--ov-title-sm-size)/var(--ov-title-sm-line) var(--ov-font-sans); letter-spacing: var(--ov-title-sm-tracking); }
+.ov-body-lg     { font: var(--ov-weight-regular) var(--ov-body-lg-size)/var(--ov-body-lg-line) var(--ov-font-sans); letter-spacing: var(--ov-body-lg-tracking); }
+.ov-body-md     { font: var(--ov-weight-regular) var(--ov-body-md-size)/var(--ov-body-md-line) var(--ov-font-sans); letter-spacing: var(--ov-body-md-tracking); }
+.ov-body-sm     { font: var(--ov-weight-regular) var(--ov-body-sm-size)/var(--ov-body-sm-line) var(--ov-font-sans); letter-spacing: var(--ov-body-sm-tracking); }
 .ov-label-lg    { font: var(--ov-weight-medium) var(--ov-label-lg-size)/var(--ov-label-lg-line) var(--ov-font-sans); letter-spacing: var(--ov-label-lg-tracking); }
 .ov-label-md    { font: var(--ov-weight-medium) var(--ov-label-md-size)/var(--ov-label-md-line) var(--ov-font-sans); letter-spacing: var(--ov-label-md-tracking); }
 .ov-label-sm    { font: var(--ov-weight-medium) var(--ov-label-sm-size)/var(--ov-label-sm-line) var(--ov-font-sans); letter-spacing: var(--ov-label-sm-tracking); }
