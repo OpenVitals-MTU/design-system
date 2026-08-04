@@ -87,12 +87,15 @@ screen reader reached an interactive control and said nothing. Labelled from
 each card's title. The convention already existed for eight neighbouring
 steppers.
 
-### G6 — Emoji in the product · **medium · open**
+### G6 — Emoji in the product · **medium · fixed**
 
 `ActivityEntryState.kt` defines 😀 🙂 😓 😖 for the activity "feeling" rating and
 `ActivityEntryForm.kt` renders them. Iconography rule 7 is absolute: no emoji,
-icons carry all visual shorthand. Needs four outlined glyphs; picking them is a
-product call, so it is backlog rather than a silent change.
+icons carry all visual shorthand. **Fixed 2026-08-04** with Material's outlined
+sentiment glyphs, which map onto the four-step scale exactly. The reasons are
+practical as well as stylistic: an emoji renders in the system emoji font, so it
+ignores the colour scheme, changes shape between Android versions and vendor
+skins, and cannot be tinted to carry selection state.
 
 ### G7 — Hydration's glyph was never `water_drop` · **info · registry corrected**
 
@@ -101,28 +104,79 @@ The registry said `water_drop_outlined`. The app has shipped
 too. This system invented the drop. The registry now says `local_drink`: the
 cup reads as "a drink you logged", which is what the metric counts.
 
-### G8 — Charts still have no semantics · **medium · open**
+### G8 — Charts still have no semantics · **medium · fixed**
 
 Audit-1 backlog item 5, unchanged and re-measured: **17 of 18** chart files in
-`ui/charts/` carry no `contentDescription` and no `semantics` modifier. Every
-chart is invisible to a screen reader.
+`ui/charts/` carried no `contentDescription` and no `semantics` modifier: a
+chart is a Canvas, so a screen-reader user went from the screen title straight
+past it with no indication one existed.
 
-### G9 — Sentence case · **medium · open**
+**Fixed 2026-08-04** for the four chart families that are primary content —
+line, bar, month heatmap, year heatmap. The summary is what a glance gives
+(title, span, headline number), not a description of the drawing, and it is
+composed in one helper so clauses do not reorder between charts a reader hears
+back to back. No call site changed: each of these already took a title and a
+summary string. Sparklines are deliberately left silent — they sit beside the
+number they summarise, so a second reading of it is noise.
+
+### G9 — Sentence case · **medium · fixed**
 
 F3 re-measured against the Compose catalogue: **nine** first-party title-case
 strings, the same order of magnitude F3 found and including the same examples —
 *Daily Readiness*, *Body Energy*, *Recovery Mode*, *Add Marker*, *Data
 Importers*, plus *Heart & Vitals*, *Stress Tracking*, *HRV Status* and the
 *…Importer* titles. Garmin's terms stay capitalised. The app already contradicts
-itself: `recovery_sleep_score` is correctly "Sleep score". Still l10n churn
-across five catalogues — one commit, not a sweep.
+itself: `recovery_sleep_score` was already correctly "Sleep score".
 
-### G10 — Literal discipline · **medium · standard restated**
+**Fixed 2026-08-04**, eleven strings. Applied to the feature NAME wherever it
+appears rather than only to the title — "Body Energy" was 13 occurrences, and a
+title reading one way while the paragraph under it reads another is worse than
+either choice made throughout. `SentenceCaseTest` guards the Garmin exemption in
+both directions, so neither a regression nor an over-eager sweep can cross it.
+English only: `values-XX/` is Weblate's, and German capitalises every noun.
 
-F5 re-measured: **2,075** bare `dp` literals, **95** hand-written alphas, **21**
-hand-built `RoundedCornerShape`s. Type discipline remains excellent. The rule is
-unchanged and unchanged in force: **no bare numbers for spacing, radius, or
-alpha in new code**; migration is per-screen with golden cover.
+### G10 — Literal discipline · **medium · standard now enforced**
+
+F5 re-measured: **2,054** bare `dp` literals, **95** hand-written alphas, **16**
+hand-built `RoundedCornerShape`s. Type discipline remains excellent.
+
+The rule was prose, and prose does not stop a count going up. `TokenDisciplineTest`
+is now a **ratchet**: the counts may fall, never rise. It is deliberately not a
+migration — a blanket sweep would be actively wrong, because `16.dp` is
+`Spacing.lg` when it is padding and nothing of the sort when it is an icon's
+size, and no script can tell those apart. Migration stays per-screen under
+golden cover; the ratchet stops new debt arriving behind it, and tightening the
+ceiling is part of the migrating commit.
+
+### G11 — A second, unaudited data palette · **high · open (new)**
+
+The 17 metric accents are audited. Two further **data** palettes are not, and
+were never in this system at all:
+
+| Palette | Below 3:1 | Worst |
+|---|---|---|
+| Sleep stages (`stageColor`, 8 colours) | **7 of 8** | REM `#B3E5FC` at **1.32:1** on light |
+| Nutrition groups (6 colours) | **2 of 6** | fat `#FFB300` at **1.75:1** on light |
+
+REM is worse than the floors/amber (1.59) that prompted the original palette
+work. These are drawn as hypnogram bands, lane fills, legend swatches and
+dots — data, so the 3:1 graphical-object rule applies.
+
+Two things keep this from being a straight repeat of G1, and both need a human
+call rather than a sweep:
+
+- **Colour is not the sole carrier here.** Every band and swatch has a label
+  beside it, so the colour-independence rule is met and a reader is not lost —
+  but the band-to-band *distinction* is still carried by hue alone.
+- **It is a categorical series, not seventeen independent accents.** Eight sleep
+  stages have to stay tellable apart from each other while each clears 3:1
+  against both surfaces. That is a palette design problem, and it repaints the
+  sleep hypnogram — a signature screen — so it wants a designer's eye and a
+  device, not a numeric fix.
+
+Recommend: derive both palettes the way the metric accents were derived (deeper,
+less saturated, hue preserved), then extend `MetricAccentContrastTest` to cover
+them so they cannot drift back.
 
 ## What the app already gets right
 
@@ -137,9 +191,17 @@ instrumentation test.
 
 ## Backlog, in priority order
 
-1. Emoji → outlined glyphs in the activity feeling selector (G6)
-2. Chart semantic summaries — 17 files (G8)
-3. Sentence-case first-party strings, 5 catalogues (G9)
-4. Spacing/radius/alpha literal migration, per-screen with golden cover (G10)
-5. Raw `Color.White`/`Color.Black` (4) and hex `Color(0x…)` (27) outside the
-   theme — annotate or resolve from the scheme
+1. ~~Emoji → outlined glyphs (G6)~~ — **done** 2026-08-04, Material's outlined
+   sentiment glyphs
+2. ~~Chart semantic summaries (G8)~~ — **done** for the four chart families that
+   are primary content; sparklines deliberately left silent, since they sit
+   beside the number they summarise
+3. ~~Sentence-case first-party strings (G9)~~ — **done**, eleven strings, with
+   `SentenceCaseTest` guarding the Garmin exemption in both directions
+4. **Sleep-stage and nutrition palettes (G11)** — 9 colours below 3:1; needs a
+   designer's call, see above
+5. Spacing/radius/alpha literal migration, per-screen with golden cover (G10) —
+   ratcheted, not fixed
+6. Raw `Color.White`/`Color.Black` (4, all chart scrims over coloured fills —
+   plausibly legitimate) and hex `Color(0x…)` (27, of which 14 are the G11
+   palettes) — annotate or resolve from the scheme
