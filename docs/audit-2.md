@@ -258,6 +258,37 @@ the dog.
 until a comment says what it was measured against. Treat an uncommented one as
 a guess, and measure before propagating it into the app.
 
+### G14 — The reference screenshots are themselves stale · **high · standard changed**
+
+G12 corrected the tile against `assets/screens/01-dashboard.png` and moved the
+value to 22sp. Measuring the **running Flutter build** — the actual last-shipped
+product, still installed side by side — shows the tile value at **16sp**
+(`titleMedium`) and the app-bar title at **titleLarge**, not the 22sp/28sp+ the
+PNG shows. The G12 change overshot because it trusted a screenshot that predates
+the product it documents.
+
+Both apps now agree, verified by measuring the same glyphs ("kcal", 43px in
+each) on the same device.
+
+This reorders the authority chain, and the readme's rule follows from it:
+
+1. **The running product** — when reachable, measure it. Nothing else counts as
+   ground truth.
+2. A `.jsx` spec **with a provenance comment** naming what it was measured
+   against.
+3. `assets/screens/` — persuasive for layout and colour, **not** for type sizes,
+   until retaken from the current build.
+4. An uncommented `.jsx` value — a guess (G13).
+
+The dashboard's 32sp Bold title deserves its own note: it existed in the Compose
+app only, survived POST-hoc justification twice ("the brand is numbers-first,
+big bold numerals" — true for METRIC VALUES, wrongly stretched to chrome), and
+matched neither the Flutter build nor M3's small-top-bar spec. The special case
+is deleted rather than re-tuned; `largeTopBar` is gone from the scaffold API.
+
+Backlog: retake all eight `assets/screens/` from the current Compose build once
+the visual work settles.
+
 ## What the app already gets right
 
 Re-measured, not assumed: **513** `Icons.Outlined.*` references and **zero**

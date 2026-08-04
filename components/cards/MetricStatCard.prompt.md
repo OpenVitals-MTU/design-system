@@ -11,5 +11,6 @@ Use a `--ov-metric-*` token for `accentColor`. Pair with `SummaryRingCard` above
 82dp tall in the dashboard grid, `10px 12px` padding, 28dp accent chip with a
 16dp glyph, 10px gap. Content is **vertically centred** in the card — a tile
 whose content hugs the top leaves a third of the card empty and reads as
-unfinished. Title is label-md, value **title-lg** (the loudest element),
-subtitle label-sm, progress underline 3px at 55% accent.
+unfinished. Title is label-md, value **title-md** (measured off the shipping app — the
+reference screenshot shows title-lg and is stale for this tile), subtitle
+label-sm, progress underline 3px at 55% accent.
