@@ -43,7 +43,9 @@ export function MetricCard({
       </div>
       <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, marginTop: 12 }}>
         <span style={{
-          font: 'var(--ov-weight-bold) var(--ov-headline-sm-size)/var(--ov-headline-sm-line) var(--ov-font-sans)',
+          /* headline-MD. Measured 28px against assets/screens/06-activity-detail.png;
+             headline-sm was this file's guess and the app never drew it. */
+          font: 'var(--ov-weight-bold) var(--ov-headline-md-size)/var(--ov-headline-md-line) var(--ov-font-sans)',
           color: 'var(--ov-on-surface)', fontFeatureSettings: "'tnum'",
         }}>{value}</span>
         {unit ? (

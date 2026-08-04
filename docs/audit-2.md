@@ -215,6 +215,49 @@ the geometry so the next reader does not have to measure it off a PNG.
 not that the sentences are the same. Component-level checks belong in the audit
 — against the reference screenshots, at the same scale, measured.
 
+### G13 — The component specs understate the type scale · **medium · fixed here**
+
+Iteration 3 swept the remaining components the way G12 swept the tile: each
+`components/*.jsx` spec against the Compose implementation, and where they
+disagreed, against `assets/screens/` at the same scale.
+
+**The app came out clean.** No Compose change was needed from this sweep. What
+it found instead is a pattern in THIS repository:
+
+| Component | Spec said | Shipped / measured | Verdict |
+|---|---|---|---|
+| `MetricStatCard` value | `title-md` 16px | **22px** (G12) | spec understated |
+| `MetricCard` value | `headline-sm` 24px | **~30px measured**, `headlineMedium` 28sp | spec understated |
+| `SummaryRingCard` arc | opacity 0.72 | 0.65 | spec drifted |
+
+Two of two type values were a full step small, in the same direction. These
+`.jsx` files were written as plausible reconstructions rather than measured from
+the product, and the giveaway is that both erred the same way: toward the
+Material default and away from the brand's numbers-first emphasis. Both are
+corrected, with the measurement recorded in a comment so the next reader can
+check rather than re-guess.
+
+Everything else matched, and the matches are worth recording because they are
+what iteration 3 was for:
+
+- `SummaryRingCard` — 130° start, 280° sweep, round caps, label-sm / headline-sm
+  bold with tabular figures / label-sm. Exact.
+- `MetricCard` — 16px padding, 8px gap, 20px icon, label-md title, body-sm
+  subtitle. Exact apart from the value above.
+- `DetailRow` — body-md on both sides. Exact.
+- `AccentIconChip` — parameterised size and glyph, full radius. Exact.
+- `Button` — full radius (`CircleShape`). Exact.
+
+`ReadinessBanner` and `SettingsListItem` have no shared Compose counterpart —
+they are feature-local and inline patterns respectively, which
+[components-map](components-map.md) already records. There is nothing to
+compare, and inventing a component to match a mock would be the tail wagging
+the dog.
+
+**Rule going forward:** a value in a `.jsx` component is a *reconstruction*
+until a comment says what it was measured against. Treat an uncommented one as
+a guess, and measure before propagating it into the app.
+
 ## What the app already gets right
 
 Re-measured, not assumed: **513** `Icons.Outlined.*` references and **zero**
