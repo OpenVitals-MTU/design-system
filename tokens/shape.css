@@ -1,16 +1,17 @@
 /* ============================================================================
    OpenVitals — Shape & Elevation
-   Source: lib/ui/components/ov_card.dart, ov_surface.dart, lib/ui/theme/.
+   Source: ui/components/DetailCards.kt (OpenVitalsCard), ui/theme/Theme.kt,
+   ui/theme/DesignTokens.kt (Radii).
    All corners are rounded; cards sit flat (0dp) on tonal surfaces, so depth
    comes from surface-container tone steps rather than shadow.
    ========================================================================= */
 
 :root {
   /* Corner radii.
-     `md` is 12px, NOT the 16px this file used to claim. Both OpenVitalsCard and
-     OpenVitalsSurface have always drawn 12 — the 16 was inherited from the
-     Compose `AppShapes.medium` of the pre-Flutter app and never matched a
-     shipped pixel. `sm` and `md` therefore coincide today: the app does not
+     `md` is 12px, NOT the 16px this file used to claim. The 16 has twice come
+     from the Compose `AppShapes.medium` — once before the Flutter port and again
+     after the migration back, corrected 2026-08-04. It has never matched an
+     intended pixel. `sm` and `md` therefore coincide today: the app does not
      distinguish an input corner from a card corner. Both names are kept so the
      two CAN diverge later without touching every component. */
   --ov-radius-xs:  8px;    /* progress fills, tiny chips */

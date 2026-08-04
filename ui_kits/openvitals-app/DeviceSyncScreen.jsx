@@ -15,7 +15,7 @@ const SANS = 'var(--ov-font-sans)';
 const ACCENT = 'var(--ov-primary)';
 
 // The negotiated intersection of both devices' supported types, grouped by the
-// importer's category taxonomy (apple_health_import_categories.dart).
+// importer's category taxonomy (AppleHealthImportCategories.kt).
 const CATEGORIES = [
   ['activity', 'Activity', 'directions_run', 'var(--ov-metric-steps)', 'Steps, distance, calories, floors'],
   ['workouts', 'Workouts', 'fitness_center', 'var(--ov-metric-workout)', 'Exercise sessions, routes, laps'],

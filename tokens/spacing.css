@@ -26,11 +26,12 @@
   --ov-section-gap:         8px;   /* OpenVitalsSectionSpacing */
   --ov-action-row-height:   48px;  /* dashboard quick-action height */
   --ov-icon-surface-size:   52px;  /* OpenVitalsIconSurfaceButton */
-  /* Material floor: every tappable surface hits 48x48dp. Flutter enforces
-     this itself (kMinInteractiveDimension = 48); the 44px this file used to
-     carry was the iOS HIG number, undersized for an Android app. Visual
-     containers may be smaller (a 40dp icon button, a 24dp glyph) as long as
-     the hit area is padded out to this. */
+  /* Material floor: every tappable surface hits 48x48dp. Compose enforces it
+     through `MinimumInteractiveComponentSize` (48.dp) on its own clickable
+     Material components; the 44px this file used to carry was the iOS HIG
+     number, undersized for an Android app. Visual containers may be smaller (a
+     40dp icon button, a 24dp glyph) as long as the hit area is padded out to
+     this. App token: `LayoutMetrics.minTouchTarget`. */
   --ov-min-touch-target:    48px;
   --ov-top-bar-height:      64px;
   --ov-nav-bar-height:      80px;

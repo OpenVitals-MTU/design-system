@@ -2,7 +2,7 @@
    OpenVitals — Motion tokens
    ----------------------------------------------------------------------------
    The durations are MEASURED from the app, not invented: an audit of every
-   `Duration(milliseconds:)` in `lib/ui/` found exactly four values in use —
+   animation duration in `ui/` found exactly four values in use —
    120, 300, 550 and 1200. Naming them is what stops the fifth from being
    whatever someone types that day.
 
@@ -32,9 +32,12 @@
 }
 
 /* Reduced motion is an accessibility floor, not a preference to consider.
-   Web mocks honor the media query; the Flutter app's equivalent is
-   `MediaQuery.disableAnimations` — reveals drop to zero, functional feedback
-   stays at or under press duration. */
+   Web mocks honor the media query; Android has no equivalent query — the
+   signal is the system animator duration scale, which "Remove animations" in
+   Accessibility settings drives to zero and `ValueAnimator.areAnimatorsEnabled()`
+   reports. The app resolves it once into `LocalReducedMotion`
+   (`ui/theme/ReducedMotion.kt`); reveals drop to zero, functional feedback stays
+   at or under press duration, and anything that LOOPS pins to a still frame. */
 @media (prefers-reduced-motion: reduce) {
   :root {
     --ov-motion-standard: 0ms;

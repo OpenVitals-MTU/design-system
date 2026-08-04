@@ -1,5 +1,12 @@
 # Iteration 1 — audit
 
+> **Historical record — read [audit-2.md](audit-2.md) for the current state.**
+> The app was Flutter/Dart when this was written and is Kotlin/Compose again
+> since 2026-08-02. The findings below are kept verbatim rather than restated in
+> Compose terms: they are what was measured on the date given, and rewriting a
+> dated measurement is how a system starts lying about its own history. Every
+> *standard* they produced still holds — only the framework names moved.
+>
 > **Date:** 2026-07-28 · **Scope:** this design system vs. the shipping Flutter
 > app (`mobile-app`, sibling checkout) vs. Material 3 and WCAG 2.2.
 > Every count below was measured against the source on the date above, with the
