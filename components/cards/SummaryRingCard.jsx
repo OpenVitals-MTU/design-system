@@ -62,7 +62,10 @@ export function SummaryRingCard({
             stroke="var(--ov-outline-variant)" strokeWidth={stroke} strokeLinecap="round" />
           <path d={arcPath(cx, cy, r, START, SWEEP * frac)} fill="none"
             stroke={accentColor} strokeWidth={stroke} strokeLinecap="round"
-            style={{ opacity: 0.72 }} />
+            /* 0.65, matching the app. The arc is a metric accent on a tonal
+               surface; the alpha is what keeps it from competing with the
+               number inside it. */
+            style={{ opacity: 0.65 }} />
         </svg>
         <div style={{
           position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
