@@ -1,6 +1,6 @@
 /* ============================================================================
    OpenVitals — Chart tokens
-   Source: lib/ui/theme/chart_tokens.dart (ChartTokens + the layout constants
+   Source: ui/charts/ChartTokens.kt (ChartTokens + the layout constants
    below it).
    ----------------------------------------------------------------------------
    Charts are the app's primary content, and until this file existed the design
@@ -11,7 +11,7 @@
    highest` here and whatever the progress bar felt like there.
 
    A NOTE ON HOW THESE RESOLVE. In the app these are not constants — they are a
-   Flutter `ThemeExtension` derived from the LIVE colour scheme, because the app
+   Compose `@Composable` getters reading the LIVE colour scheme, because the app
    supports Material You dynamic colour and an AMOLED variant, so a hard-coded
    grey is wrong in two of the three themes a chart can be viewed in. The CSS
    below derives them the same way, from the `--ov-*` scheme tokens, so setting

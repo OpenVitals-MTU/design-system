@@ -22,19 +22,20 @@ contrast and never binds.
 
 ## Touch targets
 
-**48×48dp minimum for anything tappable** — Material 3's floor, enforced by
-Flutter itself (`kMinInteractiveDimension`); WCAG 2.5.8's 24px is the absolute
-lower bound we never approach. Token: `--ov-min-touch-target` /
-`Metrics.minTouchTarget`. Visual containers may be smaller (24dp glyph, 40dp
-icon button) provided the hit area pads out. Do not set
-`materialTapTargetSize: shrinkWrap` on anything a finger must hit.
+**48×48dp minimum for anything tappable** — Material 3's floor, applied by
+Compose through `MinimumInteractiveComponentSize` on its Material components;
+WCAG 2.5.8's 24px is the absolute lower bound we never approach. Token:
+`--ov-min-touch-target` / `LayoutMetrics.minTouchTarget`. Visual containers may
+be smaller (24dp glyph, 40dp icon button) provided the hit area pads out. A bare
+`Modifier.clickable` gets none of this for free — size it, or wrap it in a
+component that does.
 
 ## Text scaling
 
 The app must survive **200%** text scale — and this is *tested*, not promised:
-`test/ui/text_scaling_sweep_test.dart` sweeps key screens at 2.0. Rules that
-keep it true: no fixed-height containers around text; `Text` never wrapped in
-hard clips; rows that can't fit wrap or scroll, never truncate a value.
+`ui/TextScalingSweepTest.kt` (instrumentation) sweeps key screens at 2.0. Rules
+that keep it true: no fixed-height containers around text; `Text` never wrapped
+in hard clips; rows that can't fit wrap or scroll, never truncate a value.
 
 ## Color independence
 
@@ -50,10 +51,15 @@ converging on an accent can't make a control impersonate a metric.
 
 ## Semantics
 
-- Decorative elements are **excluded**: the wordmark (`excludeFromSemantics`),
-  `StepDots` (`ExcludeSemantics` — the step is announced by the heading).
-- Every tappable has a label; icon-only buttons always set `tooltip` or a
-  `Semantics` label.
+- Decorative elements are **excluded**: pass `contentDescription = null` on an
+  `Icon` that only decorates labelled content, and use
+  `Modifier.clearAndSetSemantics {}` for a composed decoration like step dots,
+  whose step is already announced by the heading.
+- Every tappable has a label; an icon-only button always sets a
+  `contentDescription` on its `Icon` or a `Modifier.semantics` label on itself.
+  `contentDescription = null` inside an `IconButton` with no other text is the
+  failure mode — it produces a control a screen reader announces as nothing.
+  Four settings steppers shipped that way until 2026-08-04.
 - Generated numbering (e.g. `InstructionSteps`) is produced by the widget, not
   baked into strings — so screen readers get list structure, and translators
   never manage "1.".
@@ -62,10 +68,19 @@ converging on an accent can't make a control impersonate a metric.
 
 ## Motion
 
-Honor reduced motion — `prefers-reduced-motion` on web,
-`MediaQuery.disableAnimations` in Flutter. Reveals and ambient sweeps drop to
-zero; functional feedback stays ≤ `--ov-motion-press` (120ms). No looping or
-decorative animation exists in the system, and none is to be added.
+Honor reduced motion — `prefers-reduced-motion` on web; on Android there is no
+such query, so the signal is the system animator duration scale, which "Remove
+animations" drives to zero and `ValueAnimator.areAnimatorsEnabled()` reports.
+The app resolves it once per theme into `LocalReducedMotion`, with
+`animationDuration()` for tweens and `loopingMotionAllowed()` as the gate before
+starting anything that repeats.
+
+Reveals and ambient sweeps drop to zero; functional feedback stays ≤
+`--ov-motion-press` (120ms). Repeating animation is the kind that never settles,
+so it is the kind this matters most for. Two loops exist and both stop under
+reduced motion: the edit-mode wiggle (an affordance — it says a tile can be
+dragged) and the mindfulness timer's breathing pulse. Neither is decorative, and
+nothing decorative is to be added.
 
 ## Localization
 

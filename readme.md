@@ -13,28 +13,35 @@ throwaway mocks — grounded in the app's real Material 3 theme.
 
 Everything here is grounded in the OpenVitals source, not guessed.
 
-**OpenVitals is a Flutter/Dart app.** It was ported from Kotlin/Compose.
+**OpenVitals is a Kotlin/Jetpack Compose app.** It was Flutter/Dart between
+2026-07-09 and 2026-08-02 and has been migrated back; the `mobile-app` checkout
+is retired.
 
-This system is its own repository. The paths below are relative to the **mobile
-app** checkout (`mobile-app`, a sibling of this one); it lived inside that repo
-under `design/` until it was moved here to be the single home for everything
-design-related.
+This system is its own repository. The paths below are relative to the **Android
+app** checkout (`openvitals-android`, a sibling of this one), rooted at
+`app/src/main/kotlin/tech/mmarca/openvitals/`.
 
 | What | Where |
 |---|---|
-| Colour scheme, brand + metric accents | `lib/ui/theme/app_colors.dart`, `app_theme.dart` |
-| Type scale | `lib/ui/theme/app_typography.dart` |
-| Chart chrome + chart layout | `lib/ui/theme/chart_tokens.dart` |
-| Card / surface primitives | `lib/ui/components/ov_card.dart`, `ov_surface.dart` |
-| Everything else shared | `lib/ui/components/`, `lib/ui/charts/` |
+| Colour scheme, brand + metric accents | `ui/theme/Color.kt`, `Theme.kt` |
+| Type scale | `ui/theme/Type.kt` |
+| Spacing, radii, emphasis, motion, metrics | `ui/theme/DesignTokens.kt` |
+| Reduced-motion contract | `ui/theme/ReducedMotion.kt` |
+| Chart chrome + chart layout | `ui/charts/ChartTokens.kt`, `ChartAxis.kt` |
+| Card / surface primitives | `ui/components/DetailCards.kt` (`OpenVitalsCard`) |
+| Everything else shared | `ui/components/`, `ui/charts/` |
 
-> **Earlier versions of this file pointed at
-> `app/src/main/kotlin/.../ui/theme/{Color,Theme,Type}.kt` and
-> `ui/components/DetailCards.kt`. That tree no longer exists.** Regenerating from
-> it is how all seventeen metric accents fell a full accessibility pass behind the
-> shipping app — the Dart port re-derived the palette for WCAG contrast and this
-> system never heard about it. If a value here disagrees with the app's
-> `lib/ui/theme/`, **the Dart is right** and this file is stale.
+> **The lesson that produced this note is about DRIFT, not about which language
+> the app is written in.** All seventeen metric accents once fell a full
+> accessibility pass behind the shipping app, because the shipping side
+> re-derived the palette for WCAG contrast and this system never heard about it.
+> That happened again in the other direction across the 2026-08 migration back
+> to Kotlin: the Compose app was still carrying the stock Material-500 swatches,
+> eight of which failed 3:1 — fixed 2026-08-04 by adopting the audited palette
+> here, with a contrast test in the app to stop it recurring.
+>
+> **If a value here disagrees with the app's `ui/theme/`, the app is right and
+> this file is stale** — and the disagreement itself is the bug worth chasing.
 
 - **Codeberg (upstream):** https://codeberg.org/OpenVitals/android-app
 - **GitHub mirror:** https://github.com/mmarca-tech/OpenVitals
@@ -49,9 +56,10 @@ The two sides are each authoritative where they did the work:
 - **Values** — colour, type, the colour schemes: **the code wins.** They ship, and
   the palette is contrast-audited. This system mirrors them.
 - **Scales and contracts** — the spacing grid, the radius scale, component
-  metrics, touch targets, component props: **this system wins.** The Dart holds
-  these as named tokens in the app's `lib/ui/theme/design_tokens.dart`; screens
-  that still use bare numbers are being migrated onto it.
+  metrics, touch targets, component props: **this system wins.** The app holds
+  these as named objects in `ui/theme/DesignTokens.kt` (`Spacing`, `Radii`,
+  `Emphasis`, `Motion`, `LayoutMetrics`); screens that still use bare numbers are
+  being migrated onto them.
 
 ### A note on color: dynamic vs. canonical
 OpenVitals ships with **Material You dynamic color ON by default**, so on a real
@@ -107,7 +115,7 @@ How OpenVitals writes copy:
 
 - **Type:** Roboto (the Material 3 default — the app declares no custom font), with
   Roboto Mono available for tabular metric contexts. Material 3 type scale verbatim
-  from `app_typography.dart`. Big bold numerals (`headlineLarge` 32/700), semibold
+  from `ui/theme/Type.kt`. Big bold numerals (`headlineLarge` 32/700), semibold
   titles, regular body. `headlineMedium` carries tabular figures.
 - **Color:** restrained. Neutral surfaces with **one accent per metric** (steps
   green, distance blue, sleep purple, heart pink, calories red, hydration light
@@ -121,7 +129,8 @@ How OpenVitals writes copy:
   tonal ladder of `surfaceContainer` steps (lowest → highest), not shadows.
   Shadows appear only on truly lifted surfaces (dialogs, FAB, the phone frame).
 - **Corners:** everything is rounded. Cards use **12px** (`md`) — the 16px this
-  file used to claim came from the pre-Flutter Compose `AppShapes.medium` and
+  file used to claim came from the Compose `AppShapes.medium`, which carried it
+  again after the migration back and was corrected 2026-08-04, and
   never matched a shipped pixel. Segmented pills and selectors **24px** (`lg`);
   hero/onboarding **32px** (`xl`); small chips/inputs **12px** (`sm`, the same
   value as cards today); progress fills **8px** (`xs`). Icon buttons are full
@@ -172,10 +181,11 @@ How OpenVitals writes copy:
 ## Index — what's in this project
 
 **Standards (iteration 1 — read these first)**
-- `docs/audit-1.md` — the measured audit: every finding, disposition, backlog
+- `docs/audit-2.md` — the current measured audit (Compose): findings, dispositions, backlog
+- `docs/audit-1.md` — the iteration-1 audit, retained as the Flutter-era record
 - `docs/iconography.md` — outlined-only rule, metric glyph registry
 - `docs/accessibility.md` — contrast, 48dp targets, 200% type, semantics, motion
-- `docs/components-map.md` — this system ↔ Flutter widget reconciliation
+- `docs/components-map.md` — this system ↔ Compose composable reconciliation
 
 **Foundations**
 - `styles.css` — global entry point (import this one file)

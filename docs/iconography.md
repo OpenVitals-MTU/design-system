@@ -14,22 +14,23 @@ spends that signal on decoration.
 
 | Surface | Family | Why |
 |---|---|---|
-| Flutter app (today) | **Classic Material Icons** via `Icons.*` | What Flutter ships; zero dependencies |
+| Android app (today) | **Material Icons** via Compose's `Icons.Outlined.*` (`material-icons-extended`) | What Compose ships; already a dependency |
 | Web mocks / this system | **Material Symbols Outlined**, wght 500, FILL 0 | The webfont equivalent |
 
 These are two fonts drawing near-identical glyphs. That is acceptable for now
 and dishonest to hide: earlier versions of this system claimed the app used
 Material Symbols. It does not. If pixel parity between mocks and app ever
-matters enough, the migration path is the `material_symbols_icons` package —
-a backlog item, not a rule.
+matters enough, the migration path is a Material Symbols font asset — a backlog
+item, not a rule.
 
 ## Usage rules
 
-1. **Chrome and metric glyphs: outlined.** `Icons.*_outlined` (or `_outline` /
-   `_border` where that's the name Flutter gives it — `favorite_border`).
-2. **Selected states: filled.** The nav bar's `icon:` outlined /
-   `selectedIcon:` filled pairing (`app_routes.dart`) is the pattern. A toggled
-   favourite may fill. Nothing else fills.
+1. **Chrome and metric glyphs: outlined.** `Icons.Outlined.*`, or
+   `Icons.AutoMirrored.Outlined.*` for glyphs that must flip in RTL
+   (`DirectionsWalk`, `DirectionsRun`, `ArrowBack`, list glyphs). Never
+   `Icons.Filled.*` or its alias `Icons.Default.*`.
+2. **Selected states: filled.** A navigation item's unselected/selected pairing
+   is the pattern. A toggled favourite may fill. Nothing else fills.
 3. **Stroke-natured glyphs are exempt** — `add`, `check`, `close`,
    `chevron_*`, `arrow_*`, `play_arrow` have no meaningful filled/outlined
    distinction. Use the base name.
@@ -46,29 +47,49 @@ a backlog item, not a rule.
 
 ## Metric glyph registry
 
-| Metric | Glyph (Flutter name, outlined form) |
-|---|---|
-| Steps | `directions_walk_outlined` |
-| Distance | `straighten_outlined` |
-| Workout / exercise | `directions_run_outlined` |
-| Heart | `favorite_border` |
-| Sleep | `bed_outlined` |
-| Calories | `local_fire_department_outlined` |
-| Hydration | `water_drop_outlined` |
-| Nutrition | `restaurant_outlined` |
-| Mindfulness | `self_improvement_outlined` |
-| Cycle | `calendar_month_outlined` |
-| Body / weight | `monitor_weight_outlined` |
-| Vitals | `device_thermostat_outlined` / `monitor_heart_outlined` |
+| Metric | Compose glyph | Webfont name |
+|---|---|---|
+| Steps | `Icons.AutoMirrored.Outlined.DirectionsWalk` | `directions_walk` |
+| Distance | `Icons.Outlined.Straighten` | `straighten` |
+| Workout / exercise | `Icons.AutoMirrored.Outlined.DirectionsRun` | `directions_run` |
+| Heart | `Icons.Outlined.Favorite` | `favorite_border` |
+| Sleep | `Icons.Outlined.Bed` | `bed` |
+| Calories | `Icons.Outlined.LocalFireDepartment` | `local_fire_department` |
+| Hydration | `Icons.Outlined.LocalDrink` | `local_drink` |
+| Nutrition | `Icons.Outlined.Restaurant` | `restaurant` |
+| Mindfulness | `Icons.Outlined.SelfImprovement` | `self_improvement` |
+| Cycle | `Icons.Outlined.CalendarMonth` | `calendar_month` |
+| Body / weight | `Icons.Outlined.MonitorWeight` | `monitor_weight` |
+| Vitals | `Icons.Outlined.DeviceThermostat` | `device_thermostat` |
 
-*(Registry reflects shipped usage after the 2026-07-28 migration; extend it
-here first, then code.)*
+*(Measured against the shipping Compose app 2026-08-04 — every metric resolves
+to exactly one glyph, across 5 to 20 files each. Extend the table here first,
+then code.)*
 
-## Current state (measured 2026-07-28)
+Two entries changed when this was re-measured against Compose, and both are the
+app's answer rather than this file's:
 
-**Migrated 2026-07-28.** 155 replacements across 42 files brought every
-non-exempt use onto the outlined family; `favorite` joined `favorite_border`
-except the two deliberate state fills (nav selection, the heart-threshold
-alert, both commented in code). What remains on base names is the exemption
-list above, not drift. New code follows the rules; the analyzer catches a
-nonexistent `_outlined` name at the first compile.
+- **Hydration is `local_drink`, not `water_drop`.** The app has used the cup
+  glyph consistently in nine files; `water_drop` was this registry's own
+  invention and never shipped. A drop reads as "a unit of water"; the cup reads
+  as "a drink you logged", which is what the metric counts.
+- **Steps, workout and other directional glyphs take `AutoMirrored`.** Compose
+  makes RTL mirroring explicit where Flutter handled it implicitly, so the
+  correct name carries it. This is a localisation requirement, not a style
+  choice.
+
+## Current state (re-measured 2026-08-04, Compose)
+
+**Clean.** The Compose app carries **513** `Icons.Outlined.*` references and
+**zero** `Icons.Filled.*` / `Icons.Default.*`, plus 66 `Icons.AutoMirrored.*`
+for the directional glyphs. The outlined-only rule survived the migration back
+from Flutter intact — it did not have to be re-applied.
+
+The compiler is the enforcement: an `Icons.Outlined.*` name that does not exist
+fails the build, so a typo cannot ship as a silently-filled glyph.
+
+**One open violation, and it is not an icon.** `ActivityEntryState.kt` defines
+four emoji (😀 🙂 😓 😖) for the activity "feeling" rating and
+`ActivityEntryForm.kt` renders them. Rule 7 is absolute — icons carry all
+visual shorthand — so this needs four outlined glyphs. Tracked as backlog;
+picking the glyphs is a product call.

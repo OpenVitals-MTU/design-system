@@ -61,7 +61,7 @@
   --ov-surface-container-high:    #E9ECEF;
   --ov-surface-container-highest: #E3E6E9;
 
-  /* ---- Fixed metric accent palette (lib/ui/theme/app_colors.dart) ----
+  /* ---- Fixed metric accent palette (ui/theme/Color.kt) ----
      DO NOT "restore" these to the Material 500 swatches they replaced.
      The originals (#4CAF50 steps, #2196F3 distance, #E91E63 heart …) were the
      2014 palette, and EIGHT of the seventeen fell below the 3:1 contrast ratio
