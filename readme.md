@@ -181,6 +181,7 @@ How OpenVitals writes copy:
 ## Index — what's in this project
 
 **Standards (iteration 1 — read these first)**
+- `docs/screen-rhythm.md` — the layout ruleset: global rules, per-screen rhythm, insets, and the measure-the-product method
 - `docs/audit-2.md` — the current measured audit (Compose): findings, dispositions, backlog
 - `docs/audit-1.md` — the iteration-1 audit, retained as the Flutter-era record
 - `docs/iconography.md` — outlined-only rule, metric glyph registry

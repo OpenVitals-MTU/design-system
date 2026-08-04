@@ -33,6 +33,10 @@
      40dp icon button, a 24dp glyph) as long as the hit area is padded out to
      this. App token: `LayoutMetrics.minTouchTarget`. */
   --ov-min-touch-target:    48px;
-  --ov-top-bar-height:      64px;
+  /* 56px, matching the shipped app. Flutter's AppBar keeps Material 2's
+     toolbar height even under M3; the 64px this token used to claim was the
+     M3 SPEC value, and the product has never drawn it. Compose sets
+     `expandedHeight = 56.dp` to match. */
+  --ov-top-bar-height:      56px;
   --ov-nav-bar-height:      80px;
 }
