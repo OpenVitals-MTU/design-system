@@ -178,6 +178,43 @@ Recommend: derive both palettes the way the metric accents were derived (deeper,
 less saturated, hue preserved), then extend `MetricAccentContrastTest` to cover
 them so they cannot drift back.
 
+### G12 — Component geometry was never checked, only tokens · **high · fixed**
+
+Iterations 1 and 2 both audited the **token layer** — colour, radius, type
+scale, motion — and treated conformance as settled once those matched. They
+never compared a rendered component against `assets/screens/`, and the tokens
+being right is not the same as the components being right.
+
+Measured on a Pixel 6 Pro against `assets/screens/01-dashboard.png` (both
+1440x3120, so directly comparable):
+
+| | shipped Compose | reference | |
+|---|---|---|---|
+| Tile card height | 82dp | 82dp | match |
+| Tile label | 12sp | 12sp | match |
+| **Tile value** | **17sp** | **23sp** | value read as a caption |
+| **Content position** | top gap 13dp, **bottom gap 43dp** | centred, 24dp / 25dp | half the card empty |
+| **Top-bar title** | **32sp Bold** (`headlineLarge`) | ~28sp | 1.19x oversized |
+
+Two causes, both invisible from the token layer:
+
+- `MetricStatCard`'s content Row was `fillMaxWidth` inside a `fillMaxSize` Box.
+  A wrap-height Row there pins to the TOP, and `verticalAlignment =
+  CenterVertically` only centres the chip against the text — never the Row
+  within the card. Given a fixed 82dp row height, the tile sat in the top third.
+- The title used `headlineLarge` in a 64dp *small* top app bar.
+
+**And this system was wrong too:** `MetricStatCard.jsx` specified the value as
+`title-md` (16px), which is what the Compose app faithfully implemented. The
+reference screenshot — the shipped product — is 22px. The component spec and the
+screenshot in the same repository disagreed, and nobody had put them side by
+side. Both are corrected: the spec now says `title-lg`, and the prompt records
+the geometry so the next reader does not have to measure it off a PNG.
+
+**The lesson for iteration 3:** matching tokens proves the vocabulary is shared,
+not that the sentences are the same. Component-level checks belong in the audit
+— against the reference screenshots, at the same scale, measured.
+
 ## What the app already gets right
 
 Re-measured, not assumed: **513** `Icons.Outlined.*` references and **zero**
