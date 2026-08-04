@@ -1,4 +1,16 @@
 /* ============================================================================
+   LINE-HEIGHT BOXES ARE PART OF THE CONTRACT.
+   A Text element claims its style's FULL line height even when it renders a
+   single line: a 16px title on a 24px line is 24px tall. Flutter does this by
+   default; the web does this by default; Compose TRIMS a lone line to its
+   glyph metrics unless told otherwise, which silently shaved ~9dp off every
+   stacked-text card in the Android app (settings categories measured 69dp
+   against the shipped 78dp — the entire difference was the two text boxes).
+   Compose: LineHeightStyle(Center, Trim.None) + includeFontPadding=false on
+   every style, applied in ui/theme/Type.kt through one helper.
+   ========================================================================= */
+
+/* ============================================================================
    OpenVitals — Typography (Material 3 scale · ui/theme/Type.kt)
    Roboto throughout. Sizes/weights/line-heights lifted verbatim from source.
    headlineMedium carries tabular-figures (tnum) for aligned metric numerals.

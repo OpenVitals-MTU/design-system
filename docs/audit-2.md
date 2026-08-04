@@ -289,6 +289,30 @@ is deleted rather than re-tuned; `largeTopBar` is gone from the scaffold API.
 Backlog: retake all eight `assets/screens/` from the current Compose build once
 the visual work settles.
 
+### G15 — The dashboard was the outlier; the shared layers matched · **closed, ruleset extracted**
+
+The dashboard round (see the app's commit history and
+[screen-rhythm.md](screen-rhythm.md)) raised the question of whether every
+screen drifted the same way. Measured answer: **no.** The metric detail
+scaffold, settings list, card padding, card gaps and max-width caps were ported
+faithfully and match the shipped build value for value. The screens that
+diverged were the dashboard (its own rhythm, now fixed) and two app-wide
+one-liners: the 64dp top bar and the `#101416` scaffold background.
+
+One further global defect fell out of the settings comparison, and it is the
+subtlest of the lot: **Compose trims a single line of text to its glyph
+metrics, Flutter reserves the style's full line-height box.** Every constant in
+the settings category card was identical between the two implementations —
+padding 16, icon 24, gap 16, the same two type styles — and the card still
+measured 69dp against the shipped 78dp, the whole difference being the two text
+boxes. Fixed once in `Type.kt` (`LineHeightStyle.Trim.None` on every style),
+verified by re-measuring: card heights and positions now match to the pixel.
+The contract is recorded at the top of `tokens/typography.css`.
+
+The full ruleset, global and per-screen, is [screen-rhythm.md](screen-rhythm.md).
+Remaining known offset: ~4dp inside the dashboard's date row (button chrome),
+invisible at 1x and not worth the chase.
+
 ## What the app already gets right
 
 Re-measured, not assumed: **513** `Icons.Outlined.*` references and **zero**
