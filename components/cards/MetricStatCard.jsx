@@ -60,8 +60,11 @@ export function MetricStatCard({
           font: 'var(--ov-weight-medium) var(--ov-label-md-size)/var(--ov-label-md-line) var(--ov-font-sans)',
           color: 'var(--ov-on-surface-variant)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
         }}>{title}</div>
+        {/* title-LG, not title-md. The value is the loudest thing on the tile —
+            numbers first — and at 16px it read as a caption beside its own
+            label. Measured against assets/screens/01-dashboard.png: 22px. */}
         <div style={{
-          font: 'var(--ov-weight-semibold) var(--ov-title-md-size)/var(--ov-title-md-line) var(--ov-font-sans)',
+          font: 'var(--ov-weight-semibold) var(--ov-title-lg-size)/var(--ov-title-lg-line) var(--ov-font-sans)',
           color: 'var(--ov-on-surface)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
         }}>
           {value}{unit ? <span style={{ fontWeight: 'var(--ov-weight-medium)' }}> {unit}</span> : null}
