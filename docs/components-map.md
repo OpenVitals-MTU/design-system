@@ -43,6 +43,7 @@ convention.
 | `MetricCard` | `ui/components/MetricCard.kt` | match |
 | `MetricStatCard` | `features/dashboard/components/MetricStatCard.kt` | match (feature-local) |
 | `SummaryRingCard` | `features/dashboard/components/` ring composables | match (feature-local) |
+| — | `CountdownRing` (`ui/components/CountdownRing.kt`) | app-only | A full-circle ring that empties clockwise as a timed plan step or rest runs out, digits in the middle. Frame-driven against the end instant so it sweeps smoothly; steps once a second under reduced motion. Decorative: the digits carry the value. |
 | `AccentIconChip` | `ui/components/DetailCards.kt` | match |
 | `DataConfidenceCard` | `ui/components/DataConfidenceCard.kt` | match |
 | `CrossMetricInsightCard` | `ui/components/CrossMetricInsightCard.kt` | match |
