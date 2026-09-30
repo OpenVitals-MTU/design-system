@@ -33,7 +33,7 @@ convention.
 | `BottomNavBar` | navigation suite in `OpenVitalsAdaptiveScaffold.kt` | match | 80dp = M3; outlined→filled selected pairing. |
 | `DateNavigator` | `DayNavigator` (`ui/components/DateNavigation.kt`) / `PeriodNavigator` (`ui/components/PeriodNavigator.kt`) | match | Naming drift only. |
 | `TimeRangeSelector` | period-mode segmented control | match | |
-| `SectionHeader` | inline `Text` + section padding | pattern | Never made a shared composable; fine, but then this system's component is mock-only sugar. |
+| `SectionHeader` | `SectionHeader` (`ui/components/SectionHeader.kt`) | match | A `titleSmall` heading with section padding, marked as a heading for screen readers. |
 | — | `StepBar`, `InstructionSteps` (`ui/components/StepBar.kt`) | app-only | The wizard chrome (onboarding, CSV import, device sync). `InstructionSteps` generates its own numbering, so translators get one string per step and screen readers get list structure. |
 
 ## Data display & insights
@@ -50,7 +50,8 @@ convention.
 | `ReadinessBanner` | feature-side (daily readiness) | match (feature-local) |
 | `SensorStatusCard` | feature-side; dashboard body deliberately omits it | match (feature-local) |
 | `AchievementBadge` | feature-side (`features/achievements/`) | match (feature-local) |
-| `SettingsListItem` | settings section rows (`features/settings/SettingsCards.kt`) | pattern |
+| `SettingsListItem` | `OpenVitalsListRow` (`ui/components/OpenVitalsListRow.kt`) | match | A card row: glyph, title, supporting line, optional note, chevron when it opens something. First used by medical records. The settings section rows (`SettingsCategoryCard`) are still their own, feature-local. |
+| — | `EmptyState` (`ui/components/EmptyState.kt`) | app-only | A screen or section with nothing to show: glyph, one line, an optional detail. Charts keep `ChartEmptyState`. |
 | `DetailRow` | `ui/components/DetailCards.kt` | match |
 | — | `PermissionCallout` (`ui/components/PermissionCallout.kt`) | app-only — the point-of-use permission ask. Dashboard prompts were removed by policy: **asking happens at point of use, never on the home screen.** |
 | — | `HealthConnectAccessGate` (`ui/components/HealthConnectAccessGate.kt`) | app-only — full-screen availability/permission gate, wrapped by `HealthConnectScreenShell`. |
