@@ -236,3 +236,7 @@ webfont so components and mocks have a consistent glyph API. Everything else map
 - **Warm palette:** the warm chrome tokens are *sampled from the screenshots*
   (Material You is wallpaper-derived and per-device); structural tokens, type,
   shape, and metric accents are exact from source.
+
+## License
+
+The OpenVitals design system is licensed under the [`GNU Affero General Public License v3.0 or later`](LICENSE).
