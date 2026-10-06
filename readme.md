@@ -18,7 +18,7 @@ Everything here is grounded in the OpenVitals source, not guessed.
 is retired.
 
 This system is its own repository. The paths below are relative to the **Android
-app** checkout (`openvitals-android`, a sibling of this one), rooted at
+app** checkout ([`OpenVitals-MTU/android-app`](https://github.com/OpenVitals-MTU/android-app), a sibling of this one), rooted at
 `app/src/main/kotlin/tech/mmarca/openvitals/`.
 
 | What | Where |
@@ -43,8 +43,7 @@ app** checkout (`openvitals-android`, a sibling of this one), rooted at
 > **If a value here disagrees with the app's `ui/theme/`, the app is right and
 > this file is stale** — and the disagreement itself is the bug worth chasing.
 
-- **Codeberg (upstream):** https://codeberg.org/OpenVitals/android-app
-- **GitHub mirror:** https://github.com/mmarca-tech/OpenVitals
+- **Android app repository:** https://github.com/OpenVitals-MTU/android-app
 - **Reference screenshots:** `assets/screens/` (dashboard, onboarding, settings,
   daily readiness, body energy, activity detail, activity recording, beverage entry)
 - **App icon:** `assets/openvitals-icon.png` (single copy — the duplicate `uploads/` tree was removed in iteration 1)
