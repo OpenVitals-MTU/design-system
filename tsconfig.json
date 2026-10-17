@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["dom", "dom.iterable", "es2020"],
+    "jsx": "react",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    // The screens in ui_kits/ are browser scripts that share one global scope; checked
+    // as modules, their top-level names do not collide, and they reach React as the
+    // page's UMD global.
+    "moduleDetection": "force",
+    "allowUmdGlobalAccess": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["components", "ui_kits", "types"]
+}

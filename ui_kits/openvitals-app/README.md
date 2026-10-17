@@ -32,6 +32,6 @@ Start → Recording → Finish → Activity detail. Sleep tile / Recovery → Da
 Every back chevron returns to the dashboard.
 
 ## Notes
-- `index.html` mounts React + the DS bundle, then each `Screen.jsx` (each registers
+- `index.html` mounts React + the DS bundle, then each `Screen.tsx` (each registers
   itself on `window`), then a small router.
 - Components are the real DS primitives — this kit does not re-implement them.

@@ -254,7 +254,7 @@ they are feature-local and inline patterns respectively, which
 compare, and inventing a component to match a mock would be the tail wagging
 the dog.
 
-**Rule going forward:** a value in a `.jsx` component is a *reconstruction*
+**Rule going forward:** a value in a `.tsx` component is a *reconstruction*
 until a comment says what it was measured against. Treat an uncommented one as
 a guess, and measure before propagating it into the app.
 
@@ -274,11 +274,11 @@ This reorders the authority chain, and the readme's rule follows from it:
 
 1. **The running product** — when reachable, measure it. Nothing else counts as
    ground truth.
-2. A `.jsx` spec **with a provenance comment** naming what it was measured
+2. A `.tsx` spec **with a provenance comment** naming what it was measured
    against.
 3. `assets/screens/` — persuasive for layout and colour, **not** for type sizes,
    until retaken from the current build.
-4. An uncommented `.jsx` value — a guess (G13).
+4. An uncommented `.tsx` value — a guess (G13).
 
 The dashboard's 32sp Bold title deserves its own note: it existed in the Compose
 app only, survived POST-hoc justification twice ("the brand is numbers-first,
